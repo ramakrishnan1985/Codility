@@ -1,0 +1,1796 @@
+1. BinaryGap
+Find longest sequence of zeros in binary representation of an integer.
+
+// Example program
+#include <iostream>
+#include <vector>
+#include<bitset>
+using namespace std;
+
+int solution(int N)
+{
+    
+01101111110000010000000000000000
+  
+  int O[32];//The output array
+  bitset<32> A = N;//A will hold the binary representation of N 
+  for(int i=0,j=31;i<32;i++,j--)
+  {
+     //Assigning the bits one by one.
+     O[i]=A[j];
+  }
+  vector<int> bitvec;
+    for(int i = 0; i < 32; i++)
+    {
+        
+        bitvec.push_back(O[i]);
+    }
+  for(int i = 0; i < 32; i++)
+    cout<<bitvec.at(i);
+    
+    bool oneexist = false;
+    bool secondexist = false;
+    bool zeroexist = false;
+    int count = 0;
+    int max = 0;
+    
+    for(int i = 0; i < 32; i++){
+            if(bitvec.at(i) == 1)
+            {
+                if(oneexist && zeroexist)
+                    secondexist = true;
+                oneexist = true;
+                if(count > 0){
+                    if(max < count)
+                        max = count;
+                    count = 0;
+                }
+                
+                
+                
+            }
+            if(bitvec.at(i) == 0){
+                if(oneexist){
+                    zeroexist = true;
+                    count++;
+                }
+            }
+    }
+    if(max == 0 && count > 0 && secondexist)
+        max = count;
+    cout<<"\nmax : "<<max;
+  return max;
+
+}
+
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+#include <iostream>
+#include <vector>
+#include <bitset>
+using namespace std;
+
+//561892  3
+//74901729  4
+//1376796946  5
+int solution(int N) {
+    // write your code in C++14 (g++ 6.2.0)
+    int O[32];
+    bitset<32> A = N;
+    //cout<<A<<endl;
+    for(int i=0,j=31;i<32;i++,j--)
+      {
+         //Assigning the bits one by one.
+         O[i]=A[j];
+      }
+      
+      int max = 0, intr = 0;
+      bool okv = false;
+      for(int i = 0; i < 32; i++){
+          if(O[i] == 1){
+              okv = true;
+              if(max < intr){
+                max = intr;
+                
+                }
+                intr = 0;
+          }
+          if(O[i] == 0 && okv){
+              intr++;
+          }
+        //cout<<O[i];
+      }
+    return max;
+}
+
+
+-----------------------------------------------------------
+Lesson 2
+CyclicRotation - Rotate an array to the right by a given number of steps.
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+vector<int> solution(vector<int> &A, int K) {
+    // write your code in C++14 (g++ 6.2.0)
+    //int incr = A.size() % K;
+    if(K == 0 || K == A.size())
+        return A;
+	if(A.size() == 1)
+		return A;
+	if(A.size() == 0
+		return A;
+	if(K > A.size())
+		K = K % A.size();
+    vector<int> B;
+    for(int i = A.size() - K; i < A.size(); i++){
+        B.push_back(A.at(i));
+    }
+    for(int i = 0; i < A.size() - K; i++){
+        B.push_back(A.at(i));
+    }
+    return B;
+}
+
+
+vector<int> solution(vector<int> &A, int K) {
+
+	if(K == 0)
+		return A;
+	if(K == A.size())
+		return A;
+	if(A.size() == 0)
+		return A;
+	if(A.size() == 1)
+		return A;
+	if(K > A.size())
+		K = K % A.size();
+    int a[K];
+    int size = A.size();
+    for(int i = size - K, j = 0; i < size; i++, j++){
+        a[j] = A.at(i);
+    }
+    vector<int> B;
+    for(int i = 0; i < K; i++)
+        B.push_back(a[i]);
+    for(int i = 0; i < size - K; i++)
+        B.push_back(A[i]);
+        
+    return B;
+}
+
+-----------------------------------------------------------
+Lesson 2
+OddOccurrencesInArray  -  Find value that occurs in odd number of elements
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0 )
+        return 0;
+    if(A.size() == 1)
+        return A[0];
+    int max = 0;
+    for(int i = 0; i < A.size(); i++){
+        //cout<<"\nA : "<<A[i];
+        if(max < A[i])
+            max = A[i];
+    }
+    //cout<<"\nMax 1 : "<<max;
+    int B[max];
+    for(int i = 0; i < max; i++)
+        B[i] = 0;
+    //cout<<"\nMax 2 : "<<max;
+    for(int i = 0; i < A.size(); i++){
+        if(B[A[i]-1] > 0)
+            B[A[i]-1] = 0;
+        else
+            B[A[i]-1] = A[i];
+    }
+    //cout<<"\nMax 3 : "<<max;
+    for(int i = 0; i < max; i++){
+        if(B[i] > 0){
+            //cout<<"\nMax 4 : "<<i;
+            return B[i];
+        }    
+    }
+    return 0;
+}
+
+int solution(vector<int> &A) {
+    if(A.size() == 0)
+        return 0;
+    if(A.size() == 1)
+        return A[0];
+    int x = A[0];
+    for(int i = 1; i < A.size(); i++){
+        x = x ^ A[i];
+    }
+    return x;
+}
+
+
+-----------------------------------------------------------
+Lesson 3
+Task 1 FrogJmp  -  Count minimal number of jumps from position X to Y.
+
+int solution(int X, int Y, int D) {
+    if(X >= Y)
+        return 0;
+    if(D == 0)
+        return 0;
+    
+    int num1 = Y - X;
+    int num2 = num1 / D;
+    int num3 = num1 % D;
+    if(num3 > 0)
+        num2++;
+    
+    return num2;
+}
+
+
+Task 2 
+PermMissingElem  -  Find the missing element in a given permutation.
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0)
+        return 1;
+    int B[A.size()];
+    for(int i = 0; i < A.size(); i++){
+        B[i] = 0;
+    }
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] <= A.size())
+        B[A[i] - 1] = 1;
+    }
+    for(int i = 0; i < A.size(); i++){
+        if(B[i] == 0)
+            return i+1;
+    }
+    return A.size() + 1;
+}
+
+Task 3
+TapeEquilibrium  -  Minimize the value |(A[0] + ... + A[P-1]) - (A[P] + ... + A[N-1])|.
+
+int solution(vector<int> &A) {
+    
+    if(A.size() == 0 || A.size() == 1)
+        return 0;
+    if(A.size() == 2){
+        unsigned int C = abs(A[0] - A[1]);
+        return C;
+    }
+        
+    int B[A.size()];
+    int C[A.size()];
+    int num1 = 0;
+    for(int i = 0; i < A.size(); i++){
+        num1 = num1 + A[i];
+        B[i] = num1;
+        //cout<<B[i]<<" ";
+    }
+    //cout<<endl;
+    num1 = 0;
+    for(int i = A.size()-1, j = 0; i >= 0; j++, i--){
+        num1 = num1 + A[i];
+        C[j] = num1;
+        //cout<<C[j]<<" ";
+    }
+    unsigned int diff = 0;
+    //cout<<endl;
+    for(int i = A.size()-2, j = 0; i >= 0; j++, i--){
+        unsigned int x = abs(C[i] - B[j]);
+        if(j == 0)
+            diff = x;
+        else if(diff > x)
+            diff = x;
+        //cout<<diff<<" ";
+    }
+    return diff;
+}
+
+int solution(vector<int> &A) {
+    if(A.size() == 0)
+        return 0;
+    if(A.size() == 1)
+        return 1;
+    if(A.size() == 2)
+        return abs(A.at(0) - A.at(1));
+        
+        
+    int sum = 0;
+	int asize = A.size();
+	int a[asize];
+    for(int i = 0; i < (int)A.size(); i++){
+        sum = sum + (A.at(i));
+		a[i] = sum;
+		//cout<<a[i]<<" ";
+    }
+    //cout<<endl;
+	int b[asize];
+	int revsum = 0;
+    for(int i = asize-1, j = 0; i >= 0 && j < asize; i--, j++){
+        revsum = revsum + (A.at(i));
+		b[j] = revsum;
+		//cout<<b[j]<<" ";
+    }
+    //cout<<endl;
+	int diff = abs(sum);
+	
+	for(int i = asize-2, j = 0; i >= 0 && j < asize -1; i--, j++){
+	    //cout<<"a : "<<a[j]<<"  b : "<<b[i]<<"   mid : ";
+		int mid = abs(a[j] - b[i]);
+		//cout<<mid<<endl;
+		if(j == 0)
+			diff = mid;
+		if(diff > mid )
+			diff = mid;
+	}
+	
+    //cout<<"\ndiff : "<<diff;
+    return diff;
+}
+-----------------------------------------------------------
+
+Lesson 4
+
+Task 1 
+FrogRiverOne  -  Find the earliest time when a frog can jump to the other side of a river.
+
+
+int solution(int X, vector<int> &A) {
+    if(A.size() == 0)
+        return -1;
+    if(X == 0)
+        return -1;
+    // write your code in C++14 (g++ 6.2.0)
+    int B[X];
+    for(int i = 0; i < X; i++){
+        B[i] = -1;
+    }
+    for(int i = 0; i < A.size(); i++){
+        if(B[A[i]-1] == -1)
+            B[A[i]-1] = i;
+    }
+    int max = -2;
+    for(int i = 0; i < X; i++){
+        //cout<<B[i]<<" ";
+        if(B[i] == -1)
+            return -1;
+        if(max < B[i] )
+            max = B[i];
+    }
+    return max;
+}
+
+
+int solution(int X, vector<int> &A) {
+    int size = A.size();
+    int a[size];
+    for(int i = 0; i < X; i++){
+        a[i] = -1;
+    }
+    for(int i = 0; i < size; i++){
+        if(A.at(i) <= size && a[A.at(i) - 1] == -1)
+            a[A.at(i) - 1] = i;
+    }
+    
+    //cout<<endl;
+    int max = 0;
+    for(int i = 0; i < X; i++){
+        //cout<<a[i]<<" "<<max<<" :";
+        if(max < a[i])
+            max = a[i];
+        //cout<<max<<" "<<endl;
+    }
+    for(int i = 0; i < X; i++){
+        if(a[i] == -1)
+            return -1;
+    }
+    return max;
+}
+
+Task 2
+
+MaxCounters  -  Calculate the values of counters after applying all alternating operations: increase counter by 1; set value of all counters to current maximum.
+
+vector<int> solution(int N, vector<int> &A) {
+    vector<int> B;
+    if(N == 0)
+        return B;
+    if(A.size() == 0)
+        return B;
+    
+    int a[N];
+    
+    for(int i = 0; i < N; i++)
+        a[i] = 0;
+    
+	int min = 0;
+    int max = 0;
+    
+    for(int i = 0; i < A.size(); i++){
+        //<<"\nT"<<A[i];
+        if(A[i] == N + 1){
+            /*for(int j = 0; j < N; j++){
+                a[j] = max;
+            }*/
+			min = max;
+        }
+        else {
+			if(a[A[i] - 1] < min)
+				a[A[i] - 1] = min;
+            a[A[i] - 1] = a[A[i] - 1] + 1;
+            
+            if(max < a[A[i] - 1])
+                max = a[A[i] - 1];   
+        }
+    }
+    
+    for(int i = 0; i < N; i++){
+        if(a[i] < min)
+            a[i] = min;
+    }
+    
+    for(int i = 0; i < N; i++)
+        B.push_back(a[i]);
+    return B;
+    // write your code in C++14 (g++ 6.2.0)
+}
+
+Task 3
+MissingInteger  -  Find the smallest positive integer that does not occur in a given sequence.
+
+int solution(vector<int> &A) {
+    
+    if(A.size() == 0)
+        return 1;
+    if(A.size() == 1 && A[0] == 1)
+        return 2;
+    
+    int B[A.size()];
+    for(int i = 0; i < A.size(); i++){
+        B[i] = 0;
+    }
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] < 0 || A[i] > A.size())
+            continue;
+        int j = abs(A[i]);
+        B[j-1] = 1;
+        
+    }
+    for(int i = 0; i < A.size(); i++){
+        
+        //cout<<A[i]<<" ";
+        if(B[i] == 0)
+            return i+1;
+    }
+    return A.size() + 1;
+    
+}
+
+#include<vector>
+#include<algorithm>
+#include<iostream>
+using namespace std;
+int solution(vector<int> &A) {
+    int A_Size = A.size();
+    int a[A_Size];
+    for(int i = 0; i < A_Size; i++)
+        a[i] = 0;
+    for(int i = 0; i < A_Size; i++){
+        if(A.at(i) > 0 && A.at(i) <= A_Size){
+            a[A.at(i) - 1] = A.at(i);
+        }
+    }
+    bool isExist = false;
+    for(int i = 0; i < A_Size; i++){
+        if(a[i] == 0){
+            isExist = true;
+            return i+1;
+        }
+    }
+    if(!isExist)
+        return A_Size+1;
+    
+}
+
+Task 4
+PermCheck  -  Check whether array A is a permutation.
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0)
+        return 1;
+    if(A.size() == 1 && A[0] == 1)
+        return 1;
+    if(A.size() == 1 && A[0] != 1)
+        return 0;
+    int B[A.size()] = {0};
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] > 0 && A[i] <= A.size())
+            B[A[i] - 1] = 1;
+    }
+    for(int i = 0; i < A.size(); i++){
+        if(B[i] == 0)
+            return 0;
+    }
+    return 1;
+    
+}
+
+int solution(vector<int> &A) {
+    int size = A.size();
+    int a[size];
+    for(int i = 0; i < size; i++){
+        a[i] = 0;
+    }
+    for(int i = 0; i < size; i++){
+        if(A.at(i) <= size)
+            a[A.at(i) - 1] = A.at(i);
+    }
+    
+    for(int i = 0; i < size; i++){
+        
+        if(a[i] != i + 1)
+            return 0;
+    }
+    return 1;
+}
+
+-----------------------------------------------------------
+
+Lesson 5
+Task 1
+
+
+int solution(int A, int B, int K) {
+    // write your code in C++14 (g++ 6.2.0)
+    
+    if(K == 0)
+        return 0;
+    if(A>B)
+        return 0;
+          
+    if(A == B){
+        //cout<<A%K;
+        if(A % K == 0)
+            return 1;
+		else
+			return 0;
+    }
+	
+	if(A == 0)
+	{
+		return (B/K) + 1;
+	}
+            
+    int incr = 0;
+    int incr1 = B / K;
+    int incr2 = A / K;
+    
+    if(incr2 > incr1)
+        return incr2;
+    
+	if(incr2 == 0)
+		return incr1;
+	
+	if(A % K == 0)
+		return incr1 - incr2 + 1;
+		
+    return incr1 - incr2;
+    
+}
+
+Task 2
+GenomicRangeQuery  -  Find the minimal nucleotide from a range of sequence DNA.
+
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+vector<int> solution(string &S, vector<int> &P, vector<int> &Q) {
+    
+    int len = strlen(S.c_str());
+    vector<int> Result;
+    int a[len] = {0};
+    for(int i = 0; i < len; i++){
+        if(S[i] == 'A') a[i] = 1;
+        if(S[i] == 'C') a[i] = 2;
+        if(S[i] == 'G') a[i] = 3;
+        if(S[i] == 'T') a[i] = 4;
+    }
+    
+    int max = 0;
+    for(int i = 0; i < (int)P.size(); i++){
+        
+        max = 5;
+        for(int j = P[i]; j <= Q[i]; j++){
+            if(max > a[j]) max = a[j];
+        }
+        Result.push_back(max);
+    }
+    return Result;
+}
+
+#include <iostream>
+#include <string.h>
+using namespace std;
+vector<int> solution(string &S, vector<int> &P, vector<int> &Q) {
+    // write your code in C++14 (g++ 6.2.0)
+    int len = strlen(S.c_str());
+    int A[len+1] = {0};
+    int C[len+1] = {0};
+    int G[len+1] = {0};
+    int T[len+1] = {0};
+    
+    for(int i = 0; i < len; i++){
+        if(S[i] == 'A'){
+            A[i+1] = A[i] + 1;
+            C[i+1] = C[i];
+            G[i+1] = G[i];
+            T[i+1] = T[i];
+        }
+        else if(S[i] == 'C'){
+            A[i+1] = A[i];
+            C[i+1] = C[i] + 1;
+            G[i+1] = G[i];
+            T[i+1] = T[i];    
+        }
+        else if(S[i] == 'G'){
+            A[i+1] = A[i];
+            C[i+1] = C[i];
+            G[i+1] = G[i] + 1;
+            T[i+1] = T[i];   
+        }
+        else if(S[i] == 'T'){
+            A[i+1] = A[i];
+            C[i+1] = C[i];
+            G[i+1] = G[i];
+            T[i+1] = T[i] + 1;   
+        }
+    }
+    vector<int> Result;
+    for(int i = 0; i < P.size(); i++){
+        int Adiff = A[Q[i] + 1] - A[P[i]];
+		int Cdiff = C[Q[i] + 1] - C[P[i]];
+		int Gdiff = G[Q[i] + 1] - G[P[i]];
+		
+        if(Adiff > 0){
+            Result.push_back(1);
+            
+        }
+        
+        else if(Cdiff > 0){
+            Result.push_back(2);
+            
+        }
+        
+        else if(Gdiff > 0){
+            Result.push_back(3);
+            
+        }
+        else{
+            Result.push_back(4);
+            continue;
+        }
+    }
+    return Result;
+}
+
+Task 4
+PassingCars  -  Count the number of passing cars on the road.
+
+int solution(vector<int> &A) {
+    
+    if(A.size() == 0 || A.size() == 1)
+        return 0;
+    int zerocount = 0;
+    int no_pair = 0;
+    for(int i = 0; i < A.size(); i++){
+        if(no_pair > 1000000000){
+            no_pair = -1;
+            break;
+        }
+        if(A[i] == 0){
+            zerocount++;
+        }
+        else if(A[i] == 1){
+            no_pair += zerocount;
+        }
+    }
+    return no_pair;
+}
+
+
+----------------------------------------------------------
+
+Lesson¨5
+Task 1  Distinct Compute number of distinct values in an array.
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    
+    int minusmax = 0;
+    int plusmax = 0;
+    
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] < 0){
+            if(minusmax < abs(A[i]))
+                minusmax = abs(A[i]);
+            
+        } else if(A[i] > 0){
+            if(plusmax < A[i])
+                plusmax = A[i];
+        }
+        else if(A[i] == 0){
+            minusmax++;
+        }
+    }
+    //cout<<minusmax;
+    int B[minusmax+1] = {0};
+    int C[plusmax] = {0};
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] <= 0){
+            int min = abs(A[i]);
+            B[min] = 1;
+            
+        } else{
+            C[A[i] - 1] = 1;
+        }
+    }
+    int X = 0;
+    for(int i = 0; i < minusmax + 1; i++){
+        //cout<<B[i];
+        if(B[i] == 1)
+            X++;
+    }
+    for(int i = 0; i < plusmax; i++){
+        if(C[i] == 1)
+            X++;
+    }
+    return X;
+    
+}
+
+Task 2
+
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+#include <bits/stdc++.h> 
+using namespace std; 
+int solution(vector<int> &A) {
+    if(A.size() <3)
+        return 0;
+    // write your code in C++14 (g++ 6.2.0)
+    int arr[A.size()] = {0};
+    for(int i = 0; i < A.size(); i++){
+        arr[i] = A[i];
+        //cout<<arr[i]<<" ";
+    }
+    //cout<<endl;
+    int n = sizeof(arr) / sizeof(arr[0]); 
+  
+    // Print the array 
+    
+  
+    // Sort the array 
+    sort(arr, arr + n); 
+  
+    
+    int max1 = arr[n-1] * arr[n-2] * arr[n-3];
+    int max2 = arr[0] * arr[1] * arr[n-1];
+    if(max1 > max2)
+        return max1;
+    else
+        return max2;
+}
+
+
+Task 3 
+
+Task 4
+Triangle  -  Determine whether a triangle can be built from a given set of edges.
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() < 3)
+        return 0;
+    int B[A.size()] = {0};
+    for(int i = 0; i < A.size(); i++){
+        B[i] = A[i];
+        //cout<<B[i]<<" "<<endl;
+    }
+    int n = sizeof(B) / sizeof(B[0]);
+    sort(B, B+n);
+    
+    for(int i = A.size()-1; i >= 2; i--){
+        //cout<<"\n"<<i;
+        long a = B[i]; //cout<<" "<<a;
+        long b = B[i-1];
+        long c = B[i-2];
+        //cout<<"  "<<a<<" "<<b<<" "<<c;
+        if(a + b > c){
+            if(a + c > b){
+                if(c + b > a){
+                    return 1;     
+                }    
+            }
+        }
+    }
+    return 0;
+}
+-----------------------------------------------------------
+
+Lesson 7
+Task 1
+Brackets  -  Determine whether a given string of parentheses (multiple types) is properly nested.
+
+
+#include <string.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class stack_
+{
+    vector<char> stackvec;
+    public:
+    stack_(){}
+    void push(char);
+    bool pop(char);
+    int stacklength();
+};
+
+void stack_::push(char ch){
+    stackvec.push_back(ch);
+}
+bool stack_::pop(char ch){
+    if(stackvec.size() > 0){
+        if(stackvec[stackvec.size()-1] == ch){
+            stackvec.pop_back();
+            return true;
+        }else{
+            return false;
+        }
+    }
+    return false; 
+}
+int stack_::stacklength(){
+    return stackvec.size();
+}
+
+int solution(string &S) {
+    int len = strlen(S.c_str());
+    if(len == 0)
+        return 1;
+    if(strcmp(S.c_str(), "") == 0)
+        return 1;
+    //cout<<S;
+    stack_ obj;
+    for(int i = 0; i < len; i++){
+        char ch = S[i];
+        bool result = true;
+        if(ch == '(')
+            obj.push(ch);
+        else if(ch == '{')
+            obj.push(ch);
+        else if(ch == '[')
+            obj.push(ch);
+        else if(ch == ')'){
+            result = obj.pop('(');
+        }
+        else if(ch == '}'){
+            result = obj.pop('{');
+        }
+        else if(ch == ']'){
+            result = obj.pop('[');
+        }
+        if(!result)
+            return 0;
+    }
+    //cout<<obj.stacklength();
+    if(obj.stacklength() == 0)
+        return 1;
+    return 0;
+}
+
+----
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+#include<stack>
+#include<string.h>
+using namespace std;
+
+int solution(string &S) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(strcmp(S.c_str(),"") == 0)
+        return 1;
+    stack<char> st;
+    int len = strlen(S.c_str());
+    if(len == 1)
+        return 0;
+        
+    for(int i = 0; i < len; i++){
+        if(S[i] == '('){
+            st.push(S[i]);
+        } else if(S[i] == '['){
+            st.push(S[i]);
+        } else if(S[i] == '{'){
+            st.push(S[i]);
+        } else if(S[i] == ')'){
+            if(st.top() == '(')
+                st.pop();
+            else
+                return 0;
+        } else if(S[i] == ']'){
+            if(st.top() == '[')
+                st.pop();
+            else
+                return 0;
+        } else if(S[i] == '}'){
+            if(st.top() == '{')
+                st.pop();
+            else
+                return 0;
+        }
+    }
+    if(st.empty())
+        return 1;
+    else
+        return 0;
+}
+
+
+
+Task 2
+Fish  -  N voracious fish are moving along a river. Calculate how many fish are alive.
+
+#include <stack>
+int solution(vector<int> &A, vector<int> &B) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0 || B.size() == 0)
+        return 0;
+    
+    stack<int> AS;
+    stack<int> BS;
+    for(int i = 0; i < A.size(); i++){
+        if(BS.empty()){
+            BS.push(B[i]);
+            AS.push(A[i]);
+        }
+        else if(B[i] == 0){
+            {
+                if(AS.top() > A[i]){
+                    
+                } else if(AS.top() == A[i]){
+                    BS.push(B[i]);
+                    AS.push(A[i]);
+                } else{
+                    while(AS.top() < A[i]){
+                        BS.pop();
+                        AS.pop();
+                    }
+                    BS.push(B[i]);
+                    AS.push(A[i]);
+                }
+            }
+            
+        } else if(B[i] == 1){
+            BS.push(B[i]);
+            AS.push(A[i]);
+        }
+    }
+    return BS.size();
+}
+
+Task 3
+Nesting  -  Determine whether a given string of parentheses (single type) is properly nested.
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+#include<stack>
+#include<string.h>
+using namespace std;
+int solution(string &S) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(strcmp(S.c_str(),"") == 0)
+        return 1;
+    stack<char> st;
+    int len = strlen(S.c_str());
+    if(len == 1)
+        return 0;
+    for(int i = 0; i < len; i++){
+        if(S[i] == '('){
+            st.push('(');
+        }
+        else if(S[i] == ')'){
+            if(st.empty()){
+                return 0;
+            }else if(st.top() == '('){
+                st.pop();
+            } else{
+                return 0;
+            }
+        }
+    }
+    if(st.empty())
+        return 1;
+    else
+        return 0;
+}
+
+
+Task 4 
+StoneWall  -  Cover "Manhattan skyline" using the minimum number of rectangles
+
+#include <stack>
+int solution(vector<int> &H) {
+    stack<int> st;
+    int numBlock =0;
+    
+        // note: H[i] is the ith height of the wall
+        for(int i=0; i< H.size(); i++){
+        
+            // step 1: "stack is not empty" AND "from high to low"
+            // then, "pop" (it is the key point, be careful)
+            while( st.empty() == false && st.top() > H[i] ){
+                st.pop();
+            }
+            // step 2: if the stack is empty
+            if( st.empty() ){
+                numBlock++;     // add a block
+                st.push(H[i]);  // push the height
+            }
+            // step 3: the height is the same: do nothing
+            else if( st.top() == H[i] ){
+            } 
+            // step 4: from low to high 
+            else if( st.top() < H[i] ){
+                numBlock++;    // add a block
+                st.push(H[i]); // push the height
+            }
+        }
+        
+        return numBlock;
+}
+-----------------------------------------------------------
+
+Lesson 8 
+Task 1  Dominator  -  Find an index of an array such that its value occurs at more than half of indices in the array.
+
+#include<bits/stdc++.h>
+using namespace std;
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0)
+        return -1;
+    if(A.size() == 1)
+        return 0;
+    int arr[A.size()] = {0};
+    for(int i = 0; i < A.size(); i++){
+        arr[i] = A[i];
+    }
+    int n = sizeof(arr) / sizeof(arr[0]);
+    sort(arr, arr+n);
+    
+    int a = arr[0];
+    int count = 1;
+    int max = 0;
+    int value = 0;
+    for(int i = 1; i < A.size(); i++){
+        if(arr[i] == a){
+            count++;
+        } else{
+            if(max < count){
+                max = count; value = a;
+            }
+            a = arr[i];
+            count = 1;
+        }
+        if(i == A.size()-1){
+            if(max < count){
+                max = count; value = arr[i];
+            }
+        }
+    } 
+    //cout<<max;
+    if(max <= (A.size()/2)){
+        return -1;
+    } else{
+        for(int i = 0; i < A.size(); i++){
+            if(A[i] == value)
+                return i;
+        }
+    }
+    
+}
+
+Task 2
+EquiLeader  -  Find the index S such that the leaders of the sequences A[0], A[1], ..., A[S] and A[S + 1], A[S + 2], ..., A[N - 1] are the same.
+
+----------------------------------------------------------
+
+Lesson 9
+
+Task 1
+
+Task 2
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() < 2)
+        return 0;
+    int min = A[0];
+    int diff = 0;
+    for(int i = 1; i < A.size(); i++){
+        if(A[i] < 0)
+            continue;
+        if(min < A[i]){
+            if(diff < abs(min-A[i])){
+                diff = abs(min - A[i]);
+            }
+        } else {
+            min = A[i];
+        }
+    }
+    return diff;
+}
+
+Task 3
+
+CountFactors
+#include <math.h>
+int solution(int N) {
+    // write your code in C++14 (g++ 6.2.0)
+    int s = sqrt(N);
+    int counter = 0;
+    for(int i = 1; i <= s; i++){
+        if(N%i == 0){
+            counter++;
+        }
+    }
+    counter = counter * 2;
+    
+    if(s * s == N)
+        counter--;
+    
+    return counter;
+}
+
+-----------------------------------------------------------
+
+Lesson 10
+
+MinPerimeterRectangle  -  Find the minimal perimeter of any rectangle whose area equals N.
+
+#include <math.h>
+int solution(int N) {
+    // write your code in C++14 (g++ 6.2.0)
+    int sqrtN = sqrt(N);
+    int perimeter = (1 * 2) + (N * 2); // perimeter = (A*2)+(B*2)
+    
+    for(int i = sqrtN; i > 0; i--){ // from the one closest to sqrt(N)
+        if( N % i ==0){             // key point: "N % i ==0"
+            int A = i;
+            int B = N/i;
+            perimeter = (A * 2) + (B * 2);
+            break;                  // be careful: break from the for-loop
+        }
+    }
+    
+    return perimeter;
+}
+
+
+-----------------------------------------------------------
+
+// Example program
+#include <iostream>
+#include <string>
+#include <vector>
+#include <stdint.h>
+#include <math.h>
+using namespace std;
+
+int getposition(int& rem);
+
+int solution(int N)
+{
+    
+    bool maxfound = false;
+    int length = 0;
+    int increment = 0;
+    int remaining = 0;
+    
+    while(!maxfound){
+        int val = pow(2, increment);
+        if(val > N)
+        {
+            length = increment;
+            remaining = N - pow(2, increment - 1);
+            
+            break;
+        }
+        increment++;
+    }
+    
+    int bitlength[length];
+    for(int i = 0; i < length; i++)
+    {
+        bitlength[i] = 0;
+    }
+    bitlength[length - 1] = 1;
+    
+    for(int i = 0; i < length && remaining != 0; i++)
+    {
+        int pos = getposition(remaining);
+        bitlength[pos] = 1;
+        i = pos;
+    }
+    vector<int> bitvec;
+    for(int i = length - 1; i >= 0; i--)
+    {
+        cout<<bitlength[i];
+        bitvec.push_back(bitlength[i]);
+    }
+    
+    bool oneexist = false;
+    int count = 0;
+    int max = 0;
+    
+    for(int i = 0; i < (int)bitvec.size(); i++){
+        if(bitvec.at(i) == 1)
+        {
+            if(count > 0){
+                if(max < count)
+                    max = count;
+                count = 0;
+            }
+            oneexist = true;
+            
+        }
+        if(bitvec.at(i) == 0){
+            if(oneexist){
+                count++;
+            }
+        }
+    }
+    cout<<"\nmax : "<<max;
+    
+    return 0;
+}
+
+int getposition(int& rem)
+{
+    if(rem == 1){
+        rem = 0;
+        return 0;
+    }
+    bool maxfound = false;
+    int increment = 0;
+    int length = 0;
+    while(!maxfound){
+        int val = pow(2, increment);
+        if(val > rem)
+        {
+            length = increment - 1;
+            rem = rem - pow(2, length);
+            break;
+        }
+        increment++;
+    }
+    return length;
+}
+
+--------------------------------------------------------------
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int size = A.size();
+    int a[size];
+    for(int i = 0; i < size; i++){
+        a[i] = 0;
+    }
+    for(int i = 0; i < size; i++){
+        if((A.at(i) > 0) && A.at(i) < size){
+            a[A.at(i)] = A.at(i);
+        }
+    }
+
+    bool somepositiveexist = false;
+    for(int i = 1; i < size; i++){
+        if(a[i] == 0){
+            return i;
+        } else {
+            somepositiveexist = true;
+        }
+    }
+    if(somepositiveexist)
+        return size + 1;
+    return 1;
+}
+
+-----------------------------------------------------------
+
+int solution(vector<int> &A) {
+    
+    int max = 0;
+    for(int i = 0; i < (int)A.size(); i++){
+        if(A.at(i) > max)
+            max = A.at(i);
+    }
+    int a[max];
+    for(int i = 0; i < max; i++){
+        a[i] = 0;
+    }
+    for(int i = 0; i < (int)A.size(); i++){
+        if(a[A.at(i) - 1] > 0)
+            a[A.at(i) -1] = 0;
+        else
+            a[A.at(i) - 1] = A.at(i);
+    }
+    for(int i = 0; i < max; i++){
+        if(a[i] > 0)
+            return a[i];
+    }
+    return 0;
+}
+
+
+-----------------------------------------------
+int solution(vector<int> &A) {
+    if(A.size() == 0)
+        return 1;
+    if(A.size() == 1){
+        if(A.at(0) != 1)
+            return 1;
+        else
+            return 2;
+    }
+    
+    int newSize = (int)A.size() + 1;
+    int a[newSize];
+    for(int i = 0; i < newSize; i++)
+        a[i] = 0;
+    for(int i = 0; i < (int)A.size(); i++){
+        a[A.at(i) - 1] = A.at(i);
+    }
+    for(int i = 0; i < newSize; i++){
+        if(a[i] == 0)
+            return i + 1;
+    }
+    
+    return 0;
+}
+
+
+-----------------------------------------------------
+
+
+int solution(vector<int> &A) {
+    if(A.size() == 0)
+        return 1;
+    if(A.size() == 1 and A.at(0) != 1)
+        return 1;
+    int size = A.size();
+    int a[size];
+    for(int i = 0; i < size; i++){
+        a[i] = 0;
+    }
+    for(int i = 0; i < size; i++){
+        
+        if(A.at(i) > 0 && A.at(i) <= size)
+            a[A.at(i) - 1] = A.at(i);
+    }
+    for(int i = 0; i < size; i++)
+    {
+        if(a[i] == 0)
+            return i+1;
+    }
+    return size + 1;
+}
+
+-------------------------------------------------------
+
+int solution(vector<int> &A) {
+    int totalsum = 0;
+    int sum = 0;
+    int size = A.size();
+    
+    if(A.size() == 0 || A.size() == 1)
+        return 0;
+    
+    for(int i = size-1; i >= 0; i-- ){
+        if(A.at(i) == 1)
+            sum++;
+        if(A.at(i) == 0){
+            totalsum = totalsum + sum;
+        }
+		if(totalsum > 1,000000000)
+			return -1;
+    }
+    //cout<<totalsum;
+    return totalsum;
+}
+-----------------------------------------------------------------------
+#include<string>
+#include<vector>
+#include<iostream>
+using namespace std;
+vector<int> solution(string &S, vector<int> &P, vector<int> &Q) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<int> output;
+    int len = S.length();
+    //cout<<len;
+    int a[len];
+    for(int i = 0; i < len; i++){
+        if(S[i] == 'A') a[i] = 1;
+        else if(S[i] == 'C') a[i] = 2;
+        else if(S[i] == 'G') a[i] = 3;
+        else if(S[i] == 'T') a[i] = 4;
+    }
+    //for(int i = 0; i < len; i++)
+        //cout<<a[i]<<"  ";
+    int M = P.size();
+    
+    for(int i = 0; i < M; i++){
+        int min = 5;
+        for(int j = P.at(i); j <= Q.at(i); j++){
+            if(min > a[j]){
+                min = a[j];
+				if(min == 1)
+					break;
+            }
+        }
+        output.push_back(min);
+    }
+    //cout<<endl;
+    //for(int i = 0; i < output.size(); i++)
+        //cout<<output.at(i);
+    return output;
+}
+
+-----------------------------------------------------------
+
+#include<iostream>
+using namespace std;
+int solution(int A, int B, int K) {
+    if(A == B)
+    {
+        if(A % K == 0)
+            return 1;
+        else
+            return 0;
+    }
+    if(A > B)
+        return 0;
+    if(K == 0)
+        return 0;
+    if((B - A) < K)
+        return 0;
+        
+    int a = B/K;
+    //cout<<"a : "<<a<<endl;
+    int b =  (A-1)/K;
+        
+    //cout<<"b : "<<b<<endl;
+    int c = a - b;
+    //cout<<"c : "<<c<<endl;
+    
+    return c;
+}
+
+--------------------------------------------------------
+int solution(vector<int> &A) {
+    if(A.size() == 0)
+        return 0;
+    
+    int size = A.size();
+    int a[size];
+    int b[size];
+    
+    int max = 0;
+    for(int i = 0; i < size; i++){
+        if(max < abs(A.at(i)))
+            max = abs(A.at(i));
+    }
+    cout<<max<<endl;
+    
+    for(int i = 0; i < max; i++){
+        
+        a[i] = -1;
+        b[i] = 0;
+    }
+    
+    for(int i = 0; i < size; i++){
+        
+        if(A.at(i) < 0){
+            b[abs(A.at(i)) - 1] = A.at(i);
+        } else {
+            
+            a[abs(A.at(i)) - 1] = A.at(i);
+
+        }
+    }
+
+    int counter = 0;
+    for(int i = 0; i < max; i++){
+        if(a[i] != -1)
+            counter++;
+        if(b[i] != 0)
+            counter++;
+    }
+    return counter;
+}
+
+
+
+#include<map>
+int solution(vector<int> &A) {
+    if(A.size() == 0)
+        return 0;
+    if(A.size() == 1)
+        return 1;
+    
+    int size = A.size();
+    map<int, int> numberMap;
+    for(int i = 0; i < size; i++){
+        numberMap[A.at(i)] = A.at(i);
+    }
+    cout<<numberMap.size()<<endl;
+    
+    return numberMap.size();
+}
+--------------------------------------------------------------
+	#include <vector>
+#include <string>
+#include <iostream>
+using namespace std;
+int solution(string &S) {
+    if(S.length() == 0)
+        return 1;
+    if(S.length() == 1)
+        return 0;
+    vector<int> vec;
+    for(int i = 0; i < (int)S.length(); i++){
+        if(S[i] == '{' || S[i] == '}')
+            vec.push_back(1);
+        else if(S[i] == '[' || S[i] == ']')
+            vec.push_back(2);
+        else if(S[i] == '(' || S[i] == ')')
+            vec.push_back(3);
+    }
+    vector<int> stackvec;
+    for(int i = 0; i < (int)vec.size(); i++){
+        if(stackvec.size() == 0){
+            stackvec.push_back(vec.at(i));
+        }
+        else {
+            if(stackvec[stackvec.size() - 1] == vec[i]){
+                stackvec.erase(stackvec.begin()+(stackvec.size()-1));
+            } else {
+                stackvec.push_back(vec[i]);
+            }
+            
+        }
+    }
+    if(stackvec.size() == 0)
+        return 1;
+    else
+        return 0;
+}
+
+-----------------------------------------------
+
+#include<vector>
+#include<set>
+#include<iostream>
+using namespace std;
+int solution(vector<int> &A, vector<int> &B, int M, int X, int Y) {
+       
+    int size = A.size();
+    if(size == 0 || M == 0 || X == 0 || Y == 0)
+        return 0;
+    //M - no of floor
+    //X - person count Capacity of lift
+    //Y - person weight capacity of lift
+    int weight = 0;
+    int count = 0;
+    int totalcount = 0;
+    set<int> liftset;
+    for(int i = 0; i < size; i++){
+        count++;
+        weight += A[i];
+        
+        if(count > X || weight > Y){
+            totalcount += liftset.size() + 1;
+            count = 1;
+            weight = A[i];
+            //cout<<"if liftset size : "<<liftset.size()<<endl;
+            liftset.clear();
+            liftset.insert(B[i]);
+            
+        }
+        else if(count == X || weight == Y){
+            liftset.insert(B[i]);
+            totalcount += liftset.size() + 1;
+            count = 0;
+            weight = 0;
+            //cout<<"else if liftset size : "<<liftset.size()<<endl;
+            liftset.clear();
+        }
+        else{
+            liftset.insert(B[i]);
+            //cout<<"else liftset size : "<<liftset.size()<<endl;
+        }
+        if(i + 1 == size){
+            if(count != 0){
+                totalcount += liftset.size() + 1;       
+            }
+        }
+    }
+    return totalcount;
+}
+
+--------------------------------------------------------
+
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+#include<vector>
+#include<bitset>
+#include<iostream>
+using namespace std;
+
+int solution(int A, int B) {
+    
+    if(A < 0 || B < 0)
+    {
+        return 0;
+    }
+    
+    int C = A * B;
+    int bit[32];
+    int increment = 0;
+    bitset<32> D = C;
+    
+    vector<int> bitvec;
+    for(int i = 0, j = 31; i < 32; i++, j--){
+        bit[i] = D[j];
+        bitvec.push_back(bit[i]);
+    }
+    
+    for(int i = 0; i < (int)bitvec.size(); i++){
+        if(bitvec.at(i) == 1){
+            increment++;
+        }
+    }
+    return increment;
+}
+
+---------------------------------------------------------------
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stderr for debugging purposes, e.g.
+// cerr << "this is a debug message" << endl;
+#include<string.h>
+#include<iostream>
+using namespace std;
+
+void solution(int N) {
+    
+    if(N < 1 || N > 1000){
+        cout<<"Please Give Valid Input, 1 to 1000";
+        N = 0;
+    }
+    
+    for(int i = 1; i <= N; i++){
+        string str = "";
+        if(i % 2 == 0){
+            str = str + "Codility";
+        }
+        if(i % 3 == 0){
+            str = str + "Test";
+        }
+        if(i % 5 == 0){
+            str = str + "Coders";
+        }
+        if(strlen(str.c_str()) != 0)
+            cout<<str<<endl;
+        else
+            cout<<i<<endl;
+    }
+}
+
+-------------------------------------------------------------
+
+int solution(vector<int> &A) {
+    int size = A.size();
+    int a[size];
+    for(int i = 0; i < size; i++){
+        a[i] = 0;
+    }
+    for(int i = 0; i < size; i++){
+        if(A.at(i) > 0){
+            if(A.at(i) <= size){
+                a[A.at(i) - 1] = A.at(i);
+            }
+        }
+    }
+    for(int i = 0; i < size; i++){
+        if(a[i] == 0){
+            return i + 1;
+        } 
+    }
+    return size + 1;
+}
+
+
+--------------------------------------------------------------------
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+  int** dp;
+  dp = (int**)malloc(sizeof(int*)*6);
+  for(int i = 0; i < 6; i++){
+    int* sp = (int*)malloc(sizeof(int)*1);
+    *sp = i;
+    dp[i] = sp;
+  }
+  for(int i = 0; i < 6; i++){
+    printf("\nvalue : %d", *dp[i]);
+  }
+
+  char** tcp;
+  tcp = (char**)malloc(sizeof(char*)*6);
+  for(int i = 0; i < 6; i++){
+    char* scp = (char*) malloc(3);
+    strcpy(scp, "one");
+    tcp[i] = scp;
+    scp = (char*) realloc(scp,  7);
+    strcat(scp, " two");
+  }
+  for(int i = 0; i < 6; i++){
+    printf("\n char value : %s", tcp[i]);
+  }
+}
+
+----------------------------------------------------------------------
